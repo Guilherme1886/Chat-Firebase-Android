@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">chat-android</string>
+    <string name="message_user">texto aqui</string>
+    <string name="message_here">Digite aqui...</string>
+</resources>
