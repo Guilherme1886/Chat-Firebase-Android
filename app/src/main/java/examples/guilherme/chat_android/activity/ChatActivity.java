@@ -62,6 +62,7 @@ public class ChatActivity extends AppCompatActivity {
         configAuthFirebase();
         requestMessagesFirebase();
 
+
     }
 
     private void configAuthFirebase() {
@@ -86,8 +87,6 @@ public class ChatActivity extends AppCompatActivity {
                 TextView messageText = (TextView) v.findViewById(R.id.item_text_msg);
                 messageText.setText(model.getText());
 
-                list_of_messages.smoothScrollToPositionFromTop(position, 0, 0);
-
 
             }
         };
@@ -108,7 +107,6 @@ public class ChatActivity extends AppCompatActivity {
 
         text_msg.setText("");
         list_of_messages.smoothScrollToPositionFromTop(adapter.getCount() - 1, 0, 0);
-        Utils.hideKeyboard(this);
 
 
     }

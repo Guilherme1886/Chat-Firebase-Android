@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.CadastroActivity_" />
-        <activity android:name=".activity.ChatActivity_" />
+        <activity
+            android:name=".activity.ChatActivity_"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
     </application>
 
 </manifest>

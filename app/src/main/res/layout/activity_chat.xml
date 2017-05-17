@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="examples.guilherme.chat_android.activity.ChatActivity">
 
@@ -42,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_below="@+id/toolbar"
+        android:descendantFocusability="afterDescendants"
         android:divider="@android:color/transparent"
         android:dividerHeight="16dp" />
 
@@ -53,6 +55,7 @@
         android:orientation="horizontal">
 
         <EditText
+
             android:id="@+id/text_msg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
