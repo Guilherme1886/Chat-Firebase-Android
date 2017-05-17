@@ -1,6 +1,7 @@
 package examples.guilherme.chat_android.activity;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +32,7 @@ import java.util.List;
 
 import examples.guilherme.chat_android.model.ChatModel;
 import examples.guilherme.chat_android.R;
+import examples.guilherme.chat_android.utils.Utils;
 
 @EActivity
 public class ChatActivity extends AppCompatActivity {
@@ -41,17 +44,13 @@ public class ChatActivity extends AppCompatActivity {
     protected EditText text_msg;
     @ViewById
     protected FloatingActionButton button_send;
-
     @ViewById
     protected ListView list_of_messages;
 
-    private DatabaseReference mFirebaseDatabaseReference;
-    private FirebaseRecyclerAdapter<ChatModel, MyViewHolder> mFirebaseAdapter;
-    private List<ChatModel> chatModelList = new ArrayList<>();
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    public static final String MESSAGES_CHILD = "messages";
     private FirebaseListAdapter<ChatModel> adapter;
+    public static String TAG = "TAG";
 
 
     @Override
@@ -75,25 +74,24 @@ public class ChatActivity extends AppCompatActivity {
     private void configToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
     }
 
     private void requestMessagesFirebase() {
-
         adapter = new FirebaseListAdapter<ChatModel>(this, ChatModel.class, R.layout.item_chat, FirebaseDatabase.getInstance().getReference()) {
             @Override
             protected void populateView(View v, ChatModel model, int position) {
 
                 TextView messageText = (TextView) v.findViewById(R.id.item_text_msg);
-
                 messageText.setText(model.getText());
+
+                list_of_messages.smoothScrollToPositionFromTop(position, 0, 0);
 
 
             }
         };
+
 
         list_of_messages.setAdapter(adapter);
 
@@ -109,6 +107,8 @@ public class ChatActivity extends AppCompatActivity {
                 .setValue(new ChatModel(text_msg.getText().toString()));
 
         text_msg.setText("");
+        list_of_messages.smoothScrollToPositionFromTop(adapter.getCount() - 1, 0, 0);
+        Utils.hideKeyboard(this);
 
 
     }
@@ -133,16 +133,5 @@ public class ChatActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView item_text_msg;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-
-            item_text_msg = (TextView) itemView.findViewById(R.id.item_text_msg);
-
-        }
-    }
 
 }
